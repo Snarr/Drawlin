@@ -1,5 +1,28 @@
 import { Canvas, Group, Sprite, Input } from "https://cdn.jsdelivr.net/gh/Snarr/Engine/engine.js";
 
+class SpriteGrid extends Group {
+  width = 0;
+  height = 0;
+  cellSize = 0;
+
+  constructor(width, height, cellSize, color) {
+    super();
+    this.height = height;
+    this.width = width;
+    this.cellSize = cellSize
+
+    for (let row = 0; row < this.height; row++) {
+      let newRow = new Group();
+    
+      for (let col = 0; col < this.width; col++) {
+        newRow.push(new Sprite(col*this.cellSize, row*this.cellSize, this.cellSize, this.cellSize, color));
+      }
+    
+      this.push(newRow);
+    }
+  }
+}
+
 let colorPicker = document.getElementById('colorPicker')
 
 let canvas = new Canvas(800, 800);
@@ -21,17 +44,7 @@ let sizeY = 7;
 
 let cellSize = canvas.width/sizeX;
 
-let grid = new Group();
-
-for (let row = 0; row < sizeY; row++) {
-  let newRow = new Group();
-
-  for (let col = 0; col < sizeX; col++) {
-    newRow.push(new Sprite(col*cellSize, row*cellSize, cellSize, cellSize, 'rgba(0, 0, 0, 0)'));
-  }
-
-  grid.push(newRow);
-}
+let grid = new SpriteGrid(sizeX, sizeY, cellSize, 'rgb(0, 255, 0)')
 
 let clicked = false;
 
